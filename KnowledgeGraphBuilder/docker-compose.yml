@@ -148,7 +148,7 @@ services:
   #-------------------------------#
   spacy:
     container_name: spacy
-    image: rosariocannavo/spacytap             
+    image: rosariocannavo/wenetspacy             
     restart: on-failure  
     ports: 
         - "8088:8088"
