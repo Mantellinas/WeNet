@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Knowledge Graph Visualization</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vis-network@latest/styles/vis-network.css"
+        type="text/css" />
+    <link rel="stylesheet" href="./style.css" type="text/css" />
+</head>
+
+<body>
+    
+
+    <div id="container">
+        <div id="mynetwork"></div>
+    </div>
+
+    <div id="current_network">
+        <div id="current_label"></div>
+        <div id="current_timestamp"></div>
+    </div>
+
+    <div id="select-item">
+        <div id="generated-graphs"></div>
+    </div>
+    <div id="reduce"><img src="img/forward.png" id="image-button">
+    </div>
+
+    <div id="loadingBar">
+        <div class="outerBorder">
+            <div id="text">0%</div>
+            <div id="border">
+                <div id="bar"></div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <script type="text/javascript" src="./main.js"></script>
+</body>
+
+</html>
