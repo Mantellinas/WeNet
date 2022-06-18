@@ -128,10 +128,6 @@ PubMed is a free search engine accessing primarily the MEDLINE database of refer
 * With tools like Kibana, Grafana and associated plugin is very difficult and some times impossible to plot graphs in real time. In this regard we created our personal realtime dashboard to analyze, inspect and play with the generated knowledge graphs.
 * The dashboard loads data from elasticsearch using a Flask RESTFUL api and plot the network structure using a javascript library called vis.js
 ### Run the web interface
-```shell
-$ cd VisualizeNetwork/graphServer
-  python3 graph_server.py
-```
 * Open the VisualizeNetwork/graphGui/index.html page.
   
 <p align="center">

@@ -1,11 +1,11 @@
-from os import times
-from time import time
-from flask import Flask, json, after_this_request
+from cgitb import reset
+from flask import Flask, json, after_this_request, jsonify, make_response
 from elasticsearch import Elasticsearch
+from flask_cors import CORS, cross_origin
 
 es_server = Flask(__name__)
-
-ES_ADDRESS = "http://localhost:9200"
+cors = CORS(es_server)
+ES_ADDRESS = "http://elasticsearch:9200"
 ES_INDEX = "graph_gui"
 
 es = Elasticsearch(
@@ -15,12 +15,8 @@ es = Elasticsearch(
 
 #return the last written document
 @es_server.route("/search")
+@cross_origin()
 def getData():
-    @after_this_request
-    def add_header(response):
-        response.headers['Access-Control-Allow-Origin'] = '*'
-        return response 
-
     search_param = {
         "size": 1,
         "sort": { "timestamp": "desc"},
@@ -29,17 +25,25 @@ def getData():
         }
     }
     res = es.search(index=ES_INDEX, body=search_param)
-    return es_server.response_class( json.dumps(res) )
+    #res = str(res)
+    #res =  jsonify(res)
+    nodes = []
+    edges = []
+
+    
+    id = res["hits"]["hits"][0]["_id"]
+    print(id)
+    for x in res["hits"]["hits"]:
+        nodes = x["_source"]["nodes"]
+        edges = x["_source"]["links"]
+
+    return make_response(jsonify({"id":id,"nodes":nodes, "edges":edges}), 200) #test jsonify
 
 
 #return a list of all document's ids
 @es_server.route("/get-doc-id")
+@cross_origin()
 def get_documents_id():
-    @after_this_request
-    def add_header(response):
-        response.headers['Access-Control-Allow-Origin'] = '*'
-        return response
-
     query = {
          "size": 100,
         "query" : { 
@@ -60,12 +64,8 @@ def get_documents_id():
 
 #return the schema of a given id document
 @es_server.route("/get-doc-by-id/<id>") 
+@cross_origin()
 def get_document_by_id(id):
-    @after_this_request
-    def add_header(response):
-        response.headers['Access-Control-Allow-Origin'] = '*'
-        return response
-
     query = {
         "size": 1,
         "query": { 
@@ -80,7 +80,18 @@ def get_document_by_id(id):
     }
 
     res = es.search(index=ES_INDEX, body=query)
-    return es_server.response_class( json.dumps(res) )
+
+    nodes = []
+    edges = []
+
+    
+    id = res["hits"]["hits"][0]["_id"]
+    timestamp = res["hits"]["hits"][0]["_source"]["timestamp"]
+    print(timestamp)
+    for x in res["hits"]["hits"]:
+        nodes = x["_source"]["nodes"]
+        edges = x["_source"]["links"]
+    return make_response(jsonify({"timestamp": timestamp, "id":id,"nodes":nodes, "edges":edges}), 200) #test jsonify
 
 
 if __name__ == "__main__":

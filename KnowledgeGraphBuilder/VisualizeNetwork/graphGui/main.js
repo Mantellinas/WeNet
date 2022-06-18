@@ -23,10 +23,10 @@ setInterval(function () {
                         document.getElementById("current_label").innerHTML = String("ID: " + this.innerHTML);
 
                         $.getJSON(flask_doc_request + String(this.innerHTML), function (data) {
-                            document.getElementById("current_timestamp").innerHTML = "Timestamp: " + String(data.hits.hits[0]._source.timestamp);
+                            document.getElementById("current_timestamp").innerHTML = "Timestamp: " + String(data.timestamp);
 
-                            var nodes = data.hits.hits[0]._source.nodes
-                            var edges = data.hits.hits[0]._source.links
+                            var nodes = data.nodes
+                            var edges = data.edges
 
                             var node_size = Object.keys(nodes).length
                             var edge_size = Object.keys(edges).length
@@ -94,11 +94,17 @@ setInterval(function () {
 //at the beginning loads the last graph written on es
 $.getJSON(first_request, function (data) {
 
-    document.getElementById("current_label").innerHTML = "ID: " + String(data.hits.hits[0]._id);
-    document.getElementById("current_timestamp").innerHTML = "Timestamp: " + String(data.hits.hits[0]._source.timestamp);
+
+    console.log(data.id)
+      
+
+      
+
+    document.getElementById("current_label").innerHTML = "ID: " + String(data.id);
+    document.getElementById("current_timestamp").innerHTML = "Timestamp: " + String(data.id);
     
-    var nodes = data.hits.hits[0]._source.nodes
-    var edges = data.hits.hits[0]._source.links
+    var nodes = data.nodes
+    var edges = data.edges
 
     var node_size = Object.keys(nodes).length
     var edge_size = Object.keys(edges).length

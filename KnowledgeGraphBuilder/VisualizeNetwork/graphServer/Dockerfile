@@ -10,4 +10,4 @@ ENV PYTHONUNBUFFERED=0
 
 EXPOSE 3000
 
-CMD ["python", "-u", "graph_server.py"]
+CMD ["python", "-u", "test_server.py"]

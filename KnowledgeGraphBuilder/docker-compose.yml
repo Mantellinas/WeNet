@@ -198,6 +198,25 @@ services:
     networks: 
       - pubmed-network 
 
+  #-------------------------------#
+  # 🖥️ rest-server                #
+  #-------------------------------#
+  rest-server:
+    container_name: rest-server-container
+    depends_on:
+      - logstash
+      - elasticsearch
+    build:
+      context: VisualizeNetwork/graphServer
+      dockerfile: Dockerfile
+    image: rest-server
+    ports: 
+      - "3000:3000"
+    restart: on-failure 
+
+    networks:
+      - pubmed-network
+    
 
 networks:
   pubmed-network:
